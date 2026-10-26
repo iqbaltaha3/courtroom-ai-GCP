@@ -12,4 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# Fresh GitHub checkouts contain statute sources, not the generated vector index.
+# Build once into the image, including the cached embedding model for queries.
+RUN python -m scripts.build_research_index
+
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]

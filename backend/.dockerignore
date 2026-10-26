@@ -6,3 +6,8 @@ storage/
 *.json
 .env*
 !data/extra_laws/*.json
+data/*.db
+data/chroma.sqlite3
+data/chroma_case/
+data/research_index/
+evaluation/results/

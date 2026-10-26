@@ -4,6 +4,10 @@ Courtroom AI is an Indian legal research and courtroom simulation project. A Rea
 
 [Repository](https://github.com/iqbaltaha3/courtroom-ai-GCP) · [Issues](https://github.com/iqbaltaha3/courtroom-ai-GCP/issues) · [Evaluation guide](backend/evaluation/README.md) · [Architecture and interview guide](docs/portfolio-interview-guide.md)
 
+[![CI and deploy to Cloud Run](https://github.com/iqbaltaha3/courtroom-ai-GCP/actions/workflows/deploy.yml/badge.svg)](https://github.com/iqbaltaha3/courtroom-ai-GCP/actions/workflows/deploy.yml)
+
+Push to `main` to run checks and automatically redeploy both Cloud Run services. Pull requests run checks only. See [deployment, authentication, and rollback details](docs/deployment.md).
+
 ## Features
 
 - Upload PDFs or enter case facts, with page-level source references.

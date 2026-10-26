@@ -34,3 +34,4 @@ output/
 *.key
 **/service-account*.json
 **/credentials*.json
+gha-creds-*.json

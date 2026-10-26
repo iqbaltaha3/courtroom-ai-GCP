@@ -1,0 +1,105 @@
+name: CI and deploy to Cloud Run
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GCP_PROJECT_ID: courtroom-ai-509709
+  GCP_REGION: asia-south1
+  IMAGE_REPOSITORY: asia-south1-docker.pkg.dev/courtroom-ai-509709/cloud-run-source-deploy
+  BACKEND_URL: https://courtroom-ai-backend-558535784594.asia-south1.run.app
+  FRONTEND_URL: https://courtroom-ai-frontend-558535784594.asia-south1.run.app
+
+jobs:
+  checks:
+    name: Test backend and build frontend
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+      - name: Install backend dependencies
+        run: python -m pip install -r backend/requirements-dev.txt
+      - name: Lint backend
+        working-directory: backend
+        run: ruff check app scripts tests
+      - name: Test backend without live provider credentials
+        working-directory: backend
+        run: python -m pytest -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Check TypeScript and build frontend
+        working-directory: frontend
+        env:
+          VITE_API_URL: ${{ env.BACKEND_URL }}
+        run: |
+          npx tsc --noEmit
+          npm run build
+
+  deploy:
+    name: Deploy production
+    needs: checks
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    # Finish an active deployment before starting another; queued pushes coalesce.
+    concurrency:
+      group: cloud-run-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Authenticate to Google Cloud without a stored key
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          workload_identity_provider: projects/558535784594/locations/global/workloadIdentityPools/github-courtroom/providers/github
+          service_account: github-courtroom-deploy@courtroom-ai-509709.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Authenticate Docker to Artifact Registry
+        run: gcloud auth configure-docker "${GCP_REGION}-docker.pkg.dev" --quiet
+      - name: Build and push backend
+        run: |
+          docker build --tag "${IMAGE_REPOSITORY}/courtroom-ai-backend:${GITHUB_SHA}" backend
+          docker push "${IMAGE_REPOSITORY}/courtroom-ai-backend:${GITHUB_SHA}"
+      - name: Build and push frontend with its API URL
+        run: |
+          docker build --build-arg "VITE_API_URL=${BACKEND_URL}" --tag "${IMAGE_REPOSITORY}/courtroom-ai-frontend:${GITHUB_SHA}" frontend
+          docker push "${IMAGE_REPOSITORY}/courtroom-ai-frontend:${GITHUB_SHA}"
+      - name: Deploy backend and route traffic to its new revision
+        run: |
+          gcloud run services update courtroom-ai-backend --project="${GCP_PROJECT_ID}" --region="${GCP_REGION}" --image="${IMAGE_REPOSITORY}/courtroom-ai-backend:${GITHUB_SHA}" --quiet
+          gcloud run services update-traffic courtroom-ai-backend --project="${GCP_PROJECT_ID}" --region="${GCP_REGION}" --to-latest --quiet
+          curl --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 10 "${BACKEND_URL}/health" | python -c 'import json,sys; h=json.load(sys.stdin); assert h.get("status") == "ok" and h.get("statute_ok") is True, h'
+      - name: Deploy frontend and route traffic to its new revision
+        run: |
+          gcloud run services update courtroom-ai-frontend --project="${GCP_PROJECT_ID}" --region="${GCP_REGION}" --image="${IMAGE_REPOSITORY}/courtroom-ai-frontend:${GITHUB_SHA}" --quiet
+          gcloud run services update-traffic courtroom-ai-frontend --project="${GCP_PROJECT_ID}" --region="${GCP_REGION}" --to-latest --quiet
+          curl --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 10 "${FRONTEND_URL}/healthz"
+      - name: Write deployment links
+        run: |
+          {
+            echo "Deployed commit: ${GITHUB_SHA}"
+            echo ""
+            echo "- [Frontend](${FRONTEND_URL})"
+            echo "- [Backend API docs](${BACKEND_URL}/docs)"
+          } >> "$GITHUB_STEP_SUMMARY"
