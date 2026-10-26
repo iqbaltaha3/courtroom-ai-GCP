@@ -94,7 +94,7 @@ jobs:
         run: |
           gcloud run services update courtroom-ai-frontend --project="${GCP_PROJECT_ID}" --region="${GCP_REGION}" --image="${IMAGE_REPOSITORY}/courtroom-ai-frontend:${GITHUB_SHA}" --quiet
           gcloud run services update-traffic courtroom-ai-frontend --project="${GCP_PROJECT_ID}" --region="${GCP_REGION}" --to-latest --quiet
-          curl --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 10 "${FRONTEND_URL}/healthz"
+          curl --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 10 "${FRONTEND_URL}/" | python -c 'import sys; page=sys.stdin.read(); assert "<title>Courtroom AI</title>" in page and "id=\"root\"" in page, "Frontend application page was not returned"'
       - name: Write deployment links
         run: |
           {

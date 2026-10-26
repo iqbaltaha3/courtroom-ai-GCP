@@ -6,7 +6,7 @@ Every push to `main` runs backend lint and tests, TypeScript checks, and a front
 
 Each image is tagged with its Git commit SHA in the existing `cloud-run-source-deploy` Artifact Registry repository. The frontend API URL is supplied at build time because Vite embeds it into JavaScript. The backend image builds its research index from the committed statute CSVs and caches the embedding model.
 
-The workflow updates container images while retaining existing Cloud Run environment variables, Secret Manager references, runtime accounts, resource limits, and public access settings. It explicitly routes traffic to the latest revision and checks backend `/health` (including statute availability) and frontend `/healthz`. Failed checks prevent deployment; failed deployment steps mark the run failed. Backend and frontend updates are sequential, not atomic, and there is no automatic rollback. Production deployments are serialized.
+The workflow updates container images while retaining existing Cloud Run environment variables, Secret Manager references, runtime accounts, resource limits, and public access settings. It explicitly routes traffic to the latest revision and checks backend `/health` (including statute availability) and the frontend `/` application page. The public hosting layer returns 404 for `/healthz`, so the frontend check validates the application title and React root instead. Failed CI checks prevent deployment; failed deployment steps mark the run failed. Backend and frontend updates are sequential, not atomic, and there is no automatic rollback. Production deployments are serialized.
 
 ## Authentication and permissions
 
