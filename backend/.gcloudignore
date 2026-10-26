@@ -1,0 +1,16 @@
+.env
+courtroom-ai-509709-fd6cc63e4771.json
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+storage/
+tests/
+data/case.db
+data/library.db
+data/chroma_case/
+data/page_images/
+
+.ruff_cache/
+.env.*
+courtroom-ai-*.json

@@ -1,0 +1,768 @@
+{
+  "dataset_name": "Courtroom AI synthetic source-grounded cases v1",
+  "schema_version": 1,
+  "is_template": false,
+  "description": "Five controlled fictional source records for factual fidelity, individual-agent checks, and typed-record end-to-end evaluation. No real case identities or actual court outcomes are used.",
+  "default_agent_checks": {
+    "clarify_extract": [
+      "Extract the expected people, roles, and material facts without inventing information.",
+      "Preserve any Act and section pairs exactly as supplied.",
+      "Keep allegations separate from independently supplied evidence."
+    ],
+    "case_manager": [
+      "Preserve the expected facts in a neutral report.",
+      "State missing or uncertain information honestly.",
+      "Do not make any of the case-specific forbidden claims."
+    ],
+    "prosecution_consultant": [
+      "Base the strategy on supplied facts and legal material.",
+      "Acknowledge material weaknesses in the prosecution position."
+    ],
+    "defense_consultant": [
+      "Base challenges on supplied facts and legal material.",
+      "Do not treat missing corroboration as proof that the allegation is false."
+    ],
+    "prosecution_research": [
+      "Prepare queries relevant to the case's actual issues.",
+      "Support claimed legal propositions with supplied legal sources or state that they are unverified."
+    ],
+    "defense_research": [
+      "Prepare queries relevant to the case's actual issues.",
+      "Support claimed legal propositions with supplied legal sources or state that they are unverified."
+    ],
+    "pros_r1": [
+      "Use existing record and authority IDs and avoid unsupported factual claims.",
+      "Seek relief consistent with the supplied procedural stage."
+    ],
+    "def_r1": [
+      "Answer or concede the prosecution opening points meaningfully.",
+      "Use valid references and avoid unsupported factual claims."
+    ],
+    "pros_r2": [
+      "Answer or concede the defense response points meaningfully.",
+      "Use valid references and avoid unsupported factual claims."
+    ],
+    "def_r2": [
+      "Answer or concede the prosecution closing points meaningfully.",
+      "Use valid references and avoid unsupported factual claims."
+    ],
+    "judge": [
+      "Consider both sides and acknowledge material uncertainty.",
+      "Use supported findings and the expected decision type.",
+      "Do not make any of the case-specific forbidden claims."
+    ]
+  },
+  "cases": [
+    {
+      "id": "case_001",
+      "case_family": "missing_incident_time",
+      "split": "development",
+      "title": "Registration time is not incident time",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_fir_01.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "Synthetic FIR summary. Complainant Alice states that accused Bob assaulted her outside a shop. The occurrence time is not stated. The FIR registration time is 10 pm. Investigation is ongoing. No witness statement, medical report, or trial record is supplied."
+        }
+      ],
+      "expected_people": [
+        {
+          "name": "Alice",
+          "role": "complainant"
+        },
+        {
+          "name": "Bob",
+          "role": "accused"
+        }
+      ],
+      "expected_act_sections": [],
+      "expected_facts": [
+        {
+          "id": "F1",
+          "fact": "Alice alleges that Bob assaulted her outside a shop.",
+          "source_refs": [
+            "synthetic_fir_01.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_fir_01.txt:1",
+              "quote": "Complainant Alice states that accused Bob assaulted her outside a shop."
+            }
+          ]
+        },
+        {
+          "id": "F2",
+          "fact": "The occurrence time is not stated.",
+          "source_refs": [
+            "synthetic_fir_01.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_fir_01.txt:1",
+              "quote": "The occurrence time is not stated."
+            }
+          ]
+        },
+        {
+          "id": "F3",
+          "fact": "10 pm is the FIR registration time.",
+          "source_refs": [
+            "synthetic_fir_01.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_fir_01.txt:1",
+              "quote": "The FIR registration time is 10 pm."
+            }
+          ]
+        },
+        {
+          "id": "F4",
+          "fact": "The supplied record is at the investigation stage.",
+          "source_refs": [
+            "synthetic_fir_01.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_fir_01.txt:1",
+              "quote": "Investigation is ongoing."
+            }
+          ]
+        }
+      ],
+      "must_not_claim": [
+        "The assault occurred at 10 pm.",
+        "Bob's guilt has been established.",
+        "A medical report confirms the assault."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "case_manager": [
+          "Explicitly distinguish the unknown occurrence time from the 10 pm registration time."
+        ],
+        "judge": [
+          "Do not publish a trial conviction, acquittal, or sentence from this record."
+        ]
+      },
+      "tags": [
+        "missing_information",
+        "time_confusion",
+        "allegations"
+      ],
+      "source_kind": "synthetic",
+      "annotation_status": "checked_against_included_source",
+      "source_files": [
+        {
+          "path": "documents/case_001/synthetic_fir_01.txt",
+          "document": "synthetic_fir_01.txt",
+          "page": 1,
+          "sha256": "4fe6992591204469af85502a49948ddaba10c096b0d329054d0d93f725a95566"
+        }
+      ],
+      "simulation_input": {
+        "mode": "typed_narrative",
+        "narrative": "SOURCE synthetic_fir_01.txt PAGE 1 (allegation)\nSynthetic FIR summary. Complainant Alice states that accused Bob assaulted her outside a shop. The occurrence time is not stated. The FIR registration time is 10 pm. Investigation is ongoing. No witness statement, medical report, or trial record is supplied."
+      },
+      "fact_scoring_stages": [
+        "clarify_extract",
+        "case_manager",
+        "judge"
+      ],
+      "scoring_note": "Use only facts material to the evaluated stage. Forbidden claims are semantic assertions, not substring filters. Held-out labels are visible in this local file and must not be used for prompt tuning."
+    },
+    {
+      "id": "case_002",
+      "case_family": "similar_names",
+      "split": "development",
+      "title": "Two similar names with different alleged roles",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_complaint_02.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "Synthetic complaint. Complainant Meera alleges that Arjun struck her with a stick. She states that Arun stood nearby, but this complaint describes no specific act by Arun. Arjun and Arun are two different people. Investigation is ongoing. No tested witness testimony or medical report is supplied."
+        }
+      ],
+      "expected_people": [
+        {
+          "name": "Meera",
+          "role": "complainant"
+        },
+        {
+          "name": "Arjun",
+          "role": "person alleged to have struck Meera"
+        },
+        {
+          "name": "Arun",
+          "role": "person described as standing nearby"
+        }
+      ],
+      "expected_act_sections": [],
+      "expected_facts": [
+        {
+          "id": "F1",
+          "fact": "Meera alleges that Arjun struck her with a stick.",
+          "source_refs": [
+            "synthetic_complaint_02.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_complaint_02.txt:1",
+              "quote": "Complainant Meera alleges that Arjun struck her with a stick."
+            }
+          ]
+        },
+        {
+          "id": "F2",
+          "fact": "Arun is a different person from Arjun.",
+          "source_refs": [
+            "synthetic_complaint_02.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_complaint_02.txt:1",
+              "quote": "Arjun and Arun are two different people."
+            }
+          ]
+        },
+        {
+          "id": "F3",
+          "fact": "The complaint describes Arun standing nearby without a specific act attributed to him.",
+          "source_refs": [
+            "synthetic_complaint_02.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_complaint_02.txt:1",
+              "quote": "She states that Arun stood nearby, but this complaint describes no specific act by Arun."
+            }
+          ]
+        }
+      ],
+      "must_not_claim": [
+        "Arun struck Meera with a stick.",
+        "Arjun and Arun are the same person.",
+        "A supplied medical report confirms the injury."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "clarify_extract": [
+          "Keep Arjun and Arun as distinct people with distinct described roles."
+        ],
+        "judge": [
+          "Distinguish the individual allegations without inferring guilt or innocence from presence alone."
+        ]
+      },
+      "tags": [
+        "similar_names",
+        "individual_roles"
+      ],
+      "source_kind": "synthetic",
+      "annotation_status": "checked_against_included_source",
+      "source_files": [
+        {
+          "path": "documents/case_002/synthetic_complaint_02.txt",
+          "document": "synthetic_complaint_02.txt",
+          "page": 1,
+          "sha256": "1e2717bfc42276b0e8286f70bec426192b33c25be312b21dda21ae83dfaf4261"
+        }
+      ],
+      "simulation_input": {
+        "mode": "typed_narrative",
+        "narrative": "SOURCE synthetic_complaint_02.txt PAGE 1 (allegation)\nSynthetic complaint. Complainant Meera alleges that Arjun struck her with a stick. She states that Arun stood nearby, but this complaint describes no specific act by Arun. Arjun and Arun are two different people. Investigation is ongoing. No tested witness testimony or medical report is supplied."
+      },
+      "fact_scoring_stages": [
+        "clarify_extract",
+        "case_manager",
+        "judge"
+      ],
+      "scoring_note": "Use only facts material to the evaluated stage. Forbidden claims are semantic assertions, not substring filters. Held-out labels are visible in this local file and must not be used for prompt tuning."
+    },
+    {
+      "id": "case_003",
+      "case_family": "conflicting_accounts",
+      "split": "development",
+      "title": "Alleged weapon and conflicting accounts",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_fir_03.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "Synthetic FIR summary. Complainant Ravi alleges that accused Karan threatened him with a knife near the market. Investigation is ongoing. This source contains an allegation; no knife recovery memo is supplied."
+        },
+        {
+          "document": "synthetic_statement_03.txt",
+          "page": 1,
+          "doc_type": "evidence",
+          "text": "Nisha's supplied written statement says she saw an argument near the market but did not see a knife. This statement has not been tested in court. No forensic report or trial judgment is supplied."
+        }
+      ],
+      "expected_people": [
+        {
+          "name": "Ravi",
+          "role": "complainant"
+        },
+        {
+          "name": "Karan",
+          "role": "accused"
+        },
+        {
+          "name": "Nisha",
+          "role": "person providing a witness account"
+        }
+      ],
+      "expected_act_sections": [],
+      "expected_facts": [
+        {
+          "id": "F1",
+          "fact": "Ravi alleges that Karan threatened him with a knife.",
+          "source_refs": [
+            "synthetic_fir_03.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_fir_03.txt:1",
+              "quote": "Complainant Ravi alleges that accused Karan threatened him with a knife near the market."
+            }
+          ]
+        },
+        {
+          "id": "F2",
+          "fact": "Nisha says she saw an argument but did not see a knife.",
+          "source_refs": [
+            "synthetic_statement_03.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_statement_03.txt:1",
+              "quote": "Nisha's supplied written statement says she saw an argument near the market but did not see a knife."
+            }
+          ]
+        },
+        {
+          "id": "F3",
+          "fact": "No knife recovery memo is supplied.",
+          "source_refs": [
+            "synthetic_fir_03.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_fir_03.txt:1",
+              "quote": "This source contains an allegation; no knife recovery memo is supplied."
+            }
+          ]
+        },
+        {
+          "id": "F4",
+          "fact": "The supplied accounts leave the alleged knife use unresolved.",
+          "source_refs": [
+            "synthetic_fir_03.txt:1",
+            "synthetic_statement_03.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_fir_03.txt:1",
+              "quote": "Complainant Ravi alleges that accused Karan threatened him with a knife near the market."
+            },
+            {
+              "source_ref": "synthetic_statement_03.txt:1",
+              "quote": "Nisha's supplied written statement says she saw an argument near the market but did not see a knife."
+            }
+          ]
+        }
+      ],
+      "must_not_claim": [
+        "Police recovered the knife.",
+        "Nisha confirmed seeing the knife.",
+        "Ravi's allegation is proven false because Nisha did not see a knife.",
+        "A court has already convicted or acquitted Karan."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "case_manager": [
+          "Present both accounts without resolving their disagreement as an established fact."
+        ],
+        "prosecution_consultant": [
+          "Acknowledge the limitation of Nisha's account and the missing recovery memo."
+        ],
+        "defense_consultant": [
+          "Explain the evidentiary gap without claiming that non-recovery proves no knife existed."
+        ],
+        "judge": [
+          "Discuss both accounts and state what further evidence could clarify the disagreement."
+        ]
+      },
+      "tags": [
+        "conflicting_accounts",
+        "alleged_vs_recovered",
+        "multiple_documents"
+      ],
+      "source_kind": "synthetic",
+      "annotation_status": "checked_against_included_source",
+      "source_files": [
+        {
+          "path": "documents/case_003/synthetic_fir_03.txt",
+          "document": "synthetic_fir_03.txt",
+          "page": 1,
+          "sha256": "5f35263a2e3e4f438f2400ebaa11c86d58c4fb20c8233999fe917341b38d0ade"
+        },
+        {
+          "path": "documents/case_003/synthetic_statement_03.txt",
+          "document": "synthetic_statement_03.txt",
+          "page": 1,
+          "sha256": "b74ec5b3ec513a4fcd960d0c953f580e2ce295e5ab97592fb1d4a156082bb6bb"
+        }
+      ],
+      "simulation_input": {
+        "mode": "typed_narrative",
+        "narrative": "SOURCE synthetic_fir_03.txt PAGE 1 (allegation)\nSynthetic FIR summary. Complainant Ravi alleges that accused Karan threatened him with a knife near the market. Investigation is ongoing. This source contains an allegation; no knife recovery memo is supplied.\n\nSOURCE synthetic_statement_03.txt PAGE 1 (evidence)\nNisha's supplied written statement says she saw an argument near the market but did not see a knife. This statement has not been tested in court. No forensic report or trial judgment is supplied."
+      },
+      "fact_scoring_stages": [
+        "clarify_extract",
+        "case_manager",
+        "judge"
+      ],
+      "scoring_note": "Use only facts material to the evaluated stage. Forbidden claims are semantic assertions, not substring filters. Held-out labels are visible in this local file and must not be used for prompt tuning."
+    },
+    {
+      "id": "case_004",
+      "case_family": "hindi_theft",
+      "split": "held_out",
+      "title": "Hindi allegation, room number, and missing occurrence time",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_hindi_complaint_04.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "काल्पनिक शिकायत। शिकायतकर्ता सीमा का आरोप है कि आरोपी रोहित ने उसकी अनुमति के बिना, बेईमानी से लेने की नीयत से, कमरे संख्या 11 की मेज पर रखा उसका मोबाइल उठाकर अपने बैग में रख लिया। सीमा बताती है कि मोबाइल उसके कब्जे में था। घटना का समय नहीं बताया गया है। शिकायत में Bharatiya Nyaya Sanhita, 2023 (BNS), section 303 का उल्लेख आरोप के रूप में है। जांच जारी है। इस रिकॉर्ड में मोबाइल की बरामदगी का मेमो, सीसीटीवी रिकॉर्डिंग या स्वतंत्र गवाह का बयान उपलब्ध नहीं है।"
+        }
+      ],
+      "expected_people": [
+        {
+          "name": "सीमा",
+          "role": "complainant"
+        },
+        {
+          "name": "रोहित",
+          "role": "accused"
+        }
+      ],
+      "expected_act_sections": [
+        {
+          "act": "Bharatiya Nyaya Sanhita, 2023 (BNS)",
+          "section": "303"
+        }
+      ],
+      "expected_facts": [
+        {
+          "id": "F1",
+          "fact": "Seema (सीमा) alleges that Rohit (रोहित) moved her mobile phone from the table into his bag without permission and with dishonest intent.",
+          "source_refs": [
+            "synthetic_hindi_complaint_04.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_hindi_complaint_04.txt:1",
+              "quote": "शिकायतकर्ता सीमा का आरोप है कि आरोपी रोहित ने उसकी अनुमति के बिना, बेईमानी से लेने की नीयत से, कमरे संख्या 11 की मेज पर रखा उसका मोबाइल उठाकर अपने बैग में रख लिया।"
+            }
+          ]
+        },
+        {
+          "id": "F2",
+          "fact": "11 is the room number; the occurrence time is not stated.",
+          "source_refs": [
+            "synthetic_hindi_complaint_04.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_hindi_complaint_04.txt:1",
+              "quote": "कमरे संख्या 11"
+            },
+            {
+              "source_ref": "synthetic_hindi_complaint_04.txt:1",
+              "quote": "घटना का समय नहीं बताया गया है।"
+            }
+          ]
+        },
+        {
+          "id": "F3",
+          "fact": "The complaint cites BNS section 303 as an allegation, not a proved offence.",
+          "source_refs": [
+            "synthetic_hindi_complaint_04.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_hindi_complaint_04.txt:1",
+              "quote": "शिकायत में Bharatiya Nyaya Sanhita, 2023 (BNS), section 303 का उल्लेख आरोप के रूप में है।"
+            }
+          ]
+        },
+        {
+          "id": "F4",
+          "fact": "No recovery memo, CCTV recording, or independent witness statement is supplied in this record.",
+          "source_refs": [
+            "synthetic_hindi_complaint_04.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_hindi_complaint_04.txt:1",
+              "quote": "इस रिकॉर्ड में मोबाइल की बरामदगी का मेमो, सीसीटीवी रिकॉर्डिंग या स्वतंत्र गवाह का बयान उपलब्ध नहीं है।"
+            }
+          ]
+        }
+      ],
+      "must_not_claim": [
+        "The incident occurred at 11 am or 11 pm.",
+        "Police recovered the phone.",
+        "CCTV proves Rohit took the phone.",
+        "Rohit has been convicted."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "clarify_extract": [
+          "Preserve the original-script names सीमा and रोहित, optionally alongside transliteration.",
+          "Extract the explicitly cited Act and section without treating the allegation as proved."
+        ],
+        "case_manager": [
+          "Do not transform room number 11 into an occurrence time."
+        ],
+        "judge": [
+          "Do not infer recovery or a final trial outcome."
+        ]
+      },
+      "tags": [
+        "hindi",
+        "room_number",
+        "explicit_section",
+        "allegations"
+      ],
+      "source_kind": "synthetic",
+      "annotation_status": "checked_against_included_source",
+      "source_files": [
+        {
+          "path": "documents/case_004/synthetic_hindi_complaint_04.txt",
+          "document": "synthetic_hindi_complaint_04.txt",
+          "page": 1,
+          "sha256": "f78faaee729021887e8c0150deccd8bb0c372dbfb879e1212dbe569b23dc2090"
+        }
+      ],
+      "simulation_input": {
+        "mode": "typed_narrative",
+        "narrative": "SOURCE synthetic_hindi_complaint_04.txt PAGE 1 (allegation)\nकाल्पनिक शिकायत। शिकायतकर्ता सीमा का आरोप है कि आरोपी रोहित ने उसकी अनुमति के बिना, बेईमानी से लेने की नीयत से, कमरे संख्या 11 की मेज पर रखा उसका मोबाइल उठाकर अपने बैग में रख लिया। सीमा बताती है कि मोबाइल उसके कब्जे में था। घटना का समय नहीं बताया गया है। शिकायत में Bharatiya Nyaya Sanhita, 2023 (BNS), section 303 का उल्लेख आरोप के रूप में है। जांच जारी है। इस रिकॉर्ड में मोबाइल की बरामदगी का मेमो, सीसीटीवी रिकॉर्डिंग या स्वतंत्र गवाह का बयान उपलब्ध नहीं है।"
+      },
+      "fact_scoring_stages": [
+        "clarify_extract",
+        "case_manager",
+        "judge"
+      ],
+      "scoring_note": "Use only facts material to the evaluated stage. Forbidden claims are semantic assertions, not substring filters. Held-out labels are visible in this local file and must not be used for prompt tuning."
+    },
+    {
+      "id": "case_005",
+      "case_family": "legacy_sections_officer_roles",
+      "split": "held_out",
+      "title": "Legacy provisions and a signing officer who is not an eyewitness",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_legacy_fir_05.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "Synthetic FIR extract dated 15 June 2023. Complainant Farah alleges that accused Dev struck her with a stick outside a shop. The form lists Indian Penal Code, 1860 (IPC), sections 147, 148, 149, 323, and 307 as alleged provisions. It separately lists Code of Criminal Procedure, 1973 (Cr.P.C.), section 154 as the FIR procedure reference. The alleged incident date is 14 June 2023; the occurrence time is not stated. Registration is recorded on 15 June 2023 at 09:30. Officer P. Das signed the registration entry; this document does not identify P. Das as an eyewitness. Investigation is ongoing. No trial testimony or judgment is supplied."
+        },
+        {
+          "document": "synthetic_medical_inventory_05.txt",
+          "page": 1,
+          "doc_type": "evidence",
+          "text": "Synthetic document inventory for the same investigation. A referral slip requesting medical examination is supplied. The examination result, injury certificate, and forensic opinion are not supplied. A referral request is not the result of an examination."
+        }
+      ],
+      "expected_people": [
+        {
+          "name": "Farah",
+          "role": "complainant"
+        },
+        {
+          "name": "Dev",
+          "role": "accused"
+        },
+        {
+          "name": "P. Das",
+          "role": "officer signing the registration entry; not identified as an eyewitness"
+        }
+      ],
+      "expected_act_sections": [
+        {
+          "act": "Indian Penal Code, 1860 (IPC)",
+          "section": "147"
+        },
+        {
+          "act": "Indian Penal Code, 1860 (IPC)",
+          "section": "148"
+        },
+        {
+          "act": "Indian Penal Code, 1860 (IPC)",
+          "section": "149"
+        },
+        {
+          "act": "Indian Penal Code, 1860 (IPC)",
+          "section": "323"
+        },
+        {
+          "act": "Indian Penal Code, 1860 (IPC)",
+          "section": "307"
+        },
+        {
+          "act": "Code of Criminal Procedure, 1973 (Cr.P.C.)",
+          "section": "154"
+        }
+      ],
+      "expected_facts": [
+        {
+          "id": "F1",
+          "fact": "Farah alleges that Dev struck her with a stick.",
+          "source_refs": [
+            "synthetic_legacy_fir_05.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_legacy_fir_05.txt:1",
+              "quote": "Complainant Farah alleges that accused Dev struck her with a stick outside a shop."
+            }
+          ]
+        },
+        {
+          "id": "F2",
+          "fact": "The alleged incident date is 14 June 2023, while registration is on 15 June 2023 at 09:30; occurrence time is unstated.",
+          "source_refs": [
+            "synthetic_legacy_fir_05.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_legacy_fir_05.txt:1",
+              "quote": "The alleged incident date is 14 June 2023; the occurrence time is not stated."
+            },
+            {
+              "source_ref": "synthetic_legacy_fir_05.txt:1",
+              "quote": "Registration is recorded on 15 June 2023 at 09:30."
+            }
+          ]
+        },
+        {
+          "id": "F3",
+          "fact": "The record lists IPC sections 147, 148, 149, 323, and 307 as allegations, and Cr.P.C. section 154 separately as a procedure reference.",
+          "source_refs": [
+            "synthetic_legacy_fir_05.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_legacy_fir_05.txt:1",
+              "quote": "The form lists Indian Penal Code, 1860 (IPC), sections 147, 148, 149, 323, and 307 as alleged provisions."
+            },
+            {
+              "source_ref": "synthetic_legacy_fir_05.txt:1",
+              "quote": "It separately lists Code of Criminal Procedure, 1973 (Cr.P.C.), section 154 as the FIR procedure reference."
+            }
+          ]
+        },
+        {
+          "id": "F4",
+          "fact": "P. Das signed the entry but is not identified as an eyewitness in the supplied document.",
+          "source_refs": [
+            "synthetic_legacy_fir_05.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_legacy_fir_05.txt:1",
+              "quote": "Officer P. Das signed the registration entry; this document does not identify P. Das as an eyewitness."
+            }
+          ]
+        },
+        {
+          "id": "F5",
+          "fact": "Only a medical referral request is supplied, without examination results, an injury certificate, or a forensic opinion.",
+          "source_refs": [
+            "synthetic_medical_inventory_05.txt:1"
+          ],
+          "support": [
+            {
+              "source_ref": "synthetic_medical_inventory_05.txt:1",
+              "quote": "A referral slip requesting medical examination is supplied."
+            },
+            {
+              "source_ref": "synthetic_medical_inventory_05.txt:1",
+              "quote": "The examination result, injury certificate, and forensic opinion are not supplied."
+            }
+          ]
+        }
+      ],
+      "must_not_claim": [
+        "The incident occurred at 09:30 on 15 June 2023.",
+        "P. Das witnessed the alleged assault.",
+        "The medical examination confirmed an injury.",
+        "The original FIR lists BNS or BNSS sections instead of IPC and Cr.P.C.",
+        "The listed sections establish that Dev committed every alleged offence."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "clarify_extract": [
+          "Preserve all six supplied Act/section pairs.",
+          "Do not turn the officer signing the entry into a witness to the incident."
+        ],
+        "case_manager": [
+          "Keep incident and registration dates distinct.",
+          "Describe the supplied medical document as a referral, not a completed examination result."
+        ],
+        "judge": [
+          "Do not assume the alleged sections are legally established by their appearance in the FIR.",
+          "Do not replace the source Act/section labels with same-numbered newer-code provisions."
+        ]
+      },
+      "tags": [
+        "legacy_sections",
+        "signing_officer",
+        "medical_referral",
+        "registration_vs_incident"
+      ],
+      "source_kind": "synthetic",
+      "annotation_status": "checked_against_included_source",
+      "source_files": [
+        {
+          "path": "documents/case_005/synthetic_legacy_fir_05.txt",
+          "document": "synthetic_legacy_fir_05.txt",
+          "page": 1,
+          "sha256": "6ac95139aafc7c0f1481cdc8f931b78d736581b5853ac67ec0b1273694ab636a"
+        },
+        {
+          "path": "documents/case_005/synthetic_medical_inventory_05.txt",
+          "document": "synthetic_medical_inventory_05.txt",
+          "page": 1,
+          "sha256": "2536671c8ef6ecad7956bf96627a6ff7b528f36aa500b53b2a887ea6db5c6adf"
+        }
+      ],
+      "simulation_input": {
+        "mode": "typed_narrative",
+        "narrative": "SOURCE synthetic_legacy_fir_05.txt PAGE 1 (allegation)\nSynthetic FIR extract dated 15 June 2023. Complainant Farah alleges that accused Dev struck her with a stick outside a shop. The form lists Indian Penal Code, 1860 (IPC), sections 147, 148, 149, 323, and 307 as alleged provisions. It separately lists Code of Criminal Procedure, 1973 (Cr.P.C.), section 154 as the FIR procedure reference. The alleged incident date is 14 June 2023; the occurrence time is not stated. Registration is recorded on 15 June 2023 at 09:30. Officer P. Das signed the registration entry; this document does not identify P. Das as an eyewitness. Investigation is ongoing. No trial testimony or judgment is supplied.\n\nSOURCE synthetic_medical_inventory_05.txt PAGE 1 (evidence)\nSynthetic document inventory for the same investigation. A referral slip requesting medical examination is supplied. The examination result, injury certificate, and forensic opinion are not supplied. A referral request is not the result of an examination."
+      },
+      "fact_scoring_stages": [
+        "clarify_extract",
+        "case_manager",
+        "judge"
+      ],
+      "scoring_note": "Use only facts material to the evaluated stage. Forbidden claims are semantic assertions, not substring filters. Held-out labels are visible in this local file and must not be used for prompt tuning."
+    }
+  ],
+  "created_on": "2026-10-23",
+  "review_status": "Expected facts checked by the assistant against the included synthetic source records; no independent legal-expert review.",
+  "limitations": [
+    "No PDF transcription benchmark: source records are UTF-8 text.",
+    "No expert-approved final verdict labels or verified precedent holdings.",
+    "Independent evaluation of downstream agents still needs reviewed upstream report and argument fixtures.",
+    "All records support an investigation-only assessment; later procedural stages are not covered."
+  ]
+}

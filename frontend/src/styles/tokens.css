@@ -1,0 +1,25 @@
+:root {
+  --wood-900: #eef3f7;
+  --wood-850: #f6f8fb;
+  --wood-800: #ffffff;
+  --wood-700: #d9e2ea;
+  --wood-600: #b9c7d5;
+  --brass: #b8955f;
+  --brass-bright: #9f773b;
+  --brass-dim: #ddc8a3;
+  --parchment: #ffffff;
+  --parchment-dark: #f7f9fb;
+  --ink: #1f2937;
+  --ink-muted: #6b7280;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --line: #d8e0e8;
+  --cyan: #4c9bb4;
+  --navy: #1f3a56;
+  --success: #16805d;
+  --danger: #c2414f;
+  --running: #b7791f;
+  --radius: 10px;
+  --font-serif: "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}

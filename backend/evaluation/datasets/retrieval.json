@@ -1,0 +1,406 @@
+{
+  "dataset_name": "Courtroom AI local statute retrieval v1",
+  "schema_version": 1,
+  "is_template": false,
+  "created_on": "2026-10-23",
+  "task": "locate_primary_provision_in_frozen_local_corpus",
+  "label_scope": "Each question deliberately targets one primary provision. Labels are verified against the local corpus, not exhaustive relevance judgments for an open-ended legal problem or a statement of current law.",
+  "review_status": "Source-grounded by the assistant; no independent legal-expert review.",
+  "top_k": 8,
+  "methods": [
+    "bm25",
+    "vector",
+    "hybrid"
+  ],
+  "corpus_manifest": [
+    {
+      "path": "../../data/BNS_sections.csv",
+      "sha256": "6e56d0cf6872b5557da13b24b4603265a1326ed56d9a2e2d5123dca8607f5bdb"
+    },
+    {
+      "path": "../../data/BNSS_sections.csv",
+      "sha256": "9e8731df790ce292abde94013baecfcea19dd8847c2cabe4b27d524a3535e109"
+    },
+    {
+      "path": "../../data/BSA_sections.csv",
+      "sha256": "bcb3e1b5a51d0505c925de4dc4aef79a9cc81f4d08bd5a693dc5a5536cbc9d4f"
+    }
+  ],
+  "examples": [
+    {
+      "id": "retrieval_001",
+      "case_family": "theft",
+      "split": "development",
+      "question": "Which BNS provision defines dishonest taking and movement of movable property out of another person’s possession without consent?",
+      "relevant_section_ids": [
+        "BNS_303"
+      ],
+      "reference_notes": "Target the primary provision headed Theft; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNS_303",
+          "heading": "Theft",
+          "source_csv": "../../data/BNS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a202345.pdf",
+          "source_page": "88",
+          "section_text_sha256": "c85ad25853161913793a216fed3bcebf12fd140784b1e2b2091d968745151e15",
+          "excerpt": "Theft.—(1) Whoever, intending to take dishonestly any movable property out of the possession of any person without that person’s consent, moves that property in order to such taking, is said to commit theft. Explanation 1.—A thing so long as it is attached to the earth, not being movable property, is not the subject of theft; but it becomes capable of being the subject of theft as soon as it is severed from the earth. Explanation 2.—A moving effected by the same act which affects the severance may be a theft. Explanation 3.—A person is said to cause a thing to move by removing an obstacle which prevented it from moving or by separating it from any other thing, as well as by actually moving it. Explanation 4.—A person, who by any means causes an animal to move, is said to move that animal, and to move everything which, in consequence of the motion so caused, is moved by that animal. Explanation 5.—The consent mentioned in this section may be express or implied, and may be given either by the person in possession, or by any person having for that purpose authority either express or imp"
+        }
+      ],
+      "tags": [
+        "BNS",
+        "definition"
+      ]
+    },
+    {
+      "id": "retrieval_002",
+      "case_family": "restraint",
+      "split": "development",
+      "question": "Under BNS, locate the provision defining wrongful restraint when someone voluntarily blocks a person from proceeding in a direction they have a right to take.",
+      "relevant_section_ids": [
+        "BNS_126"
+      ],
+      "reference_notes": "Target the primary provision headed Wrongful restraint; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNS_126",
+          "heading": "Wrongful restraint",
+          "source_csv": "../../data/BNS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a202345.pdf",
+          "source_page": "54",
+          "section_text_sha256": "95c50295f109500cb4771b61a74e36a36d3d1c152772f9a42f0e6e1976fba11f",
+          "excerpt": "Wrongful restraint.—(1) Whoever voluntarily obstructs any person so as to prevent that person from proceeding in any direction in which that person has a right to proceed, is said wrongfully to restrain that person. Exception.—The obstruction of a private way over land or water which a person in good faith believes himself to have a lawful right to obstruct, is not an offence within the meaning of this section. Illustration. A obstructs a path along which Z has a right to pass, A not believing in good faith that he has a right to stop the path. Z is thereby prevented from passing. A wrongfully restrains Z. "
+        }
+      ],
+      "tags": [
+        "BNS",
+        "plain_language"
+      ]
+    },
+    {
+      "id": "retrieval_003",
+      "case_family": "breach_of_trust",
+      "split": "development",
+      "question": "Which BNS provision defines criminal breach of trust involving entrusted property being dishonestly misappropriated or converted to personal use?",
+      "relevant_section_ids": [
+        "BNS_316"
+      ],
+      "reference_notes": "Target the primary provision headed Criminal breach of trust; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNS_316",
+          "heading": "Criminal breach of trust",
+          "source_csv": "../../data/BNS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a202345.pdf",
+          "source_page": "93",
+          "section_text_sha256": "e3ac66f6de40081ae04666afb8312df3afc0bc347d82997dc661e43a6d52bc44",
+          "excerpt": "Criminal breach of trust.—(1) Whoever, being in any manner entrusted with property, or with any dominion over property, dishonestly misappropriates or converts to his own use that property, or dishonestly uses or disposes of that property in violation of any direction of law prescribing the mode in which such trust is to be discharged, or of any legal contract, express or implied, which he has made touching the discharge of such trust, or wilfully suffers any other person so to do, commits criminal breach of trust. Explanation 1.—A person, being an employer of an establishment whether exempted under section 17 of the Employees’ Provident Funds and Miscellaneous Provisions Act, 1952 (19 of 1952) or not who deducts the employee’s contribution from the wages payable to the employee for credit to a Provident Fund or Family Pension Fund established by any law for the time being in force, shall be deemed to have been entrusted with the amount of the contribution so deducted by him and if he makes default in the payment of such contribution to the said Fund in violation of the said law, sha"
+        }
+      ],
+      "tags": [
+        "BNS",
+        "definition"
+      ]
+    },
+    {
+      "id": "retrieval_004",
+      "case_family": "intimidation",
+      "split": "held_out",
+      "question": "Which BNS provision defines threatening injury to someone’s person, reputation, or property with intent to cause alarm?",
+      "relevant_section_ids": [
+        "BNS_351"
+      ],
+      "reference_notes": "Target the primary provision headed Criminal intimidation; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNS_351",
+          "heading": "Criminal intimidation",
+          "source_csv": "../../data/BNS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a202345.pdf",
+          "source_page": "106",
+          "section_text_sha256": "5f6c9ff4dd3a78c1c2ac6c337361a914b07fe86f7b85e07e2f98d192a5a86a4d",
+          "excerpt": "Criminal intimidation.—(1) Whoever threatens another by any means, with any injury to his person, reputation or property, or to the person or reputation of any one in whom that person is interested, with intent to cause alarm to that person, or to cause that person to do any act which he is not legally bound to do, or to omit to do any act which that person is legally entitled to do, as the means of avoiding the execution of such threat, commits criminal intimidation. Explanation.—A threat to injure the reputation of any deceased person in whom the person threatened is interested, is within this section. Illustration. A, for the purpose of inducing B to resist from prosecuting a civil suit, threatens to burn B’s house. A is guilty of criminal intimidation. "
+        }
+      ],
+      "tags": [
+        "BNS",
+        "plain_language"
+      ]
+    },
+    {
+      "id": "retrieval_005",
+      "case_family": "abduction",
+      "split": "held_out",
+      "question": "Find the BNS definition covering compelling a person by force, or inducing them through deceit, to go from a place.",
+      "relevant_section_ids": [
+        "BNS_138"
+      ],
+      "reference_notes": "Target the primary provision headed Abduction; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNS_138",
+          "heading": "Abduction",
+          "source_csv": "../../data/BNS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a202345.pdf",
+          "source_page": "57",
+          "section_text_sha256": "e3673b1ef07132c3a9ab28eacecd88acce2de449de41cdfb3641f093d6dffb67",
+          "excerpt": "Abduction.—Whoever by force compels, or by any deceitful means induces, any person to go from any place, is said to abduct that person."
+        }
+      ],
+      "tags": [
+        "BNS",
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "retrieval_006",
+      "case_family": "fir",
+      "split": "development",
+      "question": "Under BNSS, locate the provision about giving information concerning a cognizable offence to a police station, orally or by electronic communication.",
+      "relevant_section_ids": [
+        "BNSS_173"
+      ],
+      "reference_notes": "Target the primary provision headed Information in cognizable cases; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNSS_173",
+          "heading": "Information in cognizable cases",
+          "source_csv": "../../data/BNSS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20099/1/A202346.pdf",
+          "source_page": "69",
+          "section_text_sha256": "11479a7fa0406552366e4b0b98d44ad23c34db66faa7bc46b9eb8b2716969e50",
+          "excerpt": "Information in cognizable cases.—(1) Every information relating to the commission of a cognizable offence, irrespective of the area where the offence is committed, may be given orally or by electronic communication to an officer in charge of a police station, and if given— (i) orally, it shall be reduced to writing by him or under his direction, and be read over to the informant; and every such information, whether given in writing or reduced to writing as aforesaid, shall be signed by the person giving it; (ii) by electronic communication, it shall be taken on record by him on being signed within three days by the person giving it, and the substance thereof shall be entered in a book to be kept by such officer in such form as the State Government may by rules prescribe in this behalf: Provided that if the information is given by the woman against whom an offence under section 64, section 65, section 66, section 67, section 68, section 69, section 70, section 71, section 74, section 75, section 76, section 77, section 78, section 79 or section 124 of the Bharatiya Nyaya Sanhita, 2023"
+        }
+      ],
+      "tags": [
+        "BNSS",
+        "procedure"
+      ]
+    },
+    {
+      "id": "retrieval_007",
+      "case_family": "investigation_power",
+      "split": "development",
+      "question": "Which BNSS provision describes the officer in charge’s power to investigate a cognizable case without an order from a Magistrate?",
+      "relevant_section_ids": [
+        "BNSS_175"
+      ],
+      "reference_notes": "Target the primary provision headed Police officer’s power to investigate cognizable case; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNSS_175",
+          "heading": "Police officer’s power to investigate cognizable case",
+          "source_csv": "../../data/BNSS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20099/1/A202346.pdf",
+          "source_page": "70",
+          "section_text_sha256": "4e2ca132bca67b6a6273284c2e420c763568cf18d3dcc2e8fd77b4752358e40f",
+          "excerpt": "Police officer’s power to investigate cognizable case.—(1) Any officer in charge of a police station may, without the order of a Magistrate, investigate any cognizable case which a Court having jurisdiction over the local area within the limits of such station would have power to inquire into or try under the provisions of Chapter XIV: Provided that considering the nature and gravity of the offence, the Superintendent of Police may require the Deputy Superintendent of Police to investigate the case. "
+        }
+      ],
+      "tags": [
+        "BNSS",
+        "procedure"
+      ]
+    },
+    {
+      "id": "retrieval_008",
+      "case_family": "remand",
+      "split": "development",
+      "question": "Under BNSS, find the procedure for an arrested person when the investigation cannot be completed within twenty-four hours, including forwarding the person to a Magistrate.",
+      "relevant_section_ids": [
+        "BNSS_187"
+      ],
+      "reference_notes": "Target the primary provision headed Procedure when investigation cannot be completed in twenty-four hours; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNSS_187",
+          "heading": "Procedure when investigation cannot be completed in twenty-four hours",
+          "source_csv": "../../data/BNSS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20099/1/A202346.pdf",
+          "source_page": "75",
+          "section_text_sha256": "041d7698dd0d7be15c8191765097ac3298c5d4e5cfb57a2524c9a98b629dcc28",
+          "excerpt": "Procedure when investigation cannot be completed in twenty-four hours.—(1) Whenever any person is arrested and detained in custody, and it appears that the investigation cannot be completed within the period of twenty-four hours fixed by section 58, and there are grounds for believing that the accusation or information is well-founded, the officer in charge of the police station or the police officer making the investigation, if he is not below the rank of sub-inspector, shall forthwith transmit to the nearest Magistrate a copy of the entries in the diary hereinafter specified relating to the case, and shall at the same time forward the accused to such Magistrate. "
+        }
+      ],
+      "tags": [
+        "BNSS",
+        "procedure"
+      ]
+    },
+    {
+      "id": "retrieval_009",
+      "case_family": "police_report",
+      "split": "held_out",
+      "question": "Find the BNSS provision dealing with the police report sent to a Magistrate when investigation is completed, including the information the report must contain.",
+      "relevant_section_ids": [
+        "BNSS_193"
+      ],
+      "reference_notes": "Target the primary provision headed Report of police officer on completion of investigation; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNSS_193",
+          "heading": "Report of police officer on completion of investigation",
+          "source_csv": "../../data/BNSS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20099/1/A202346.pdf",
+          "source_page": "78",
+          "section_text_sha256": "c389d065271a5e72f4e4b33a98610a76355a8ad179efcab35850d6bd6c225989",
+          "excerpt": "Report of police officer on completion of investigation.—(1) Every investigation under this Chapter shall be completed without unnecessary delay. "
+        }
+      ],
+      "tags": [
+        "BNSS",
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "retrieval_010",
+      "case_family": "anticipatory_bail",
+      "split": "held_out",
+      "question": "Under BNSS, which provision allows a person who apprehends arrest for a non-bailable accusation to seek a direction for release on bail from the High Court or Court of Session?",
+      "relevant_section_ids": [
+        "BNSS_482"
+      ],
+      "reference_notes": "Target the primary provision headed Direction for grant of bail to person apprehending arrest; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BNSS_482",
+          "heading": "Direction for grant of bail to person apprehending arrest",
+          "source_csv": "../../data/BNSS_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20099/1/A202346.pdf",
+          "source_page": "163",
+          "section_text_sha256": "af50109770297629ff45847e3c89deaff3de4d47fafa142bb172eb1e76bf76cb",
+          "excerpt": "Direction for grant of bail to person apprehending arrest.—(1) When any person has reason to believe that he may be arrested on an accusation of having committed a non-bailable offence, he may apply to the High Court or the Court of Session for a direction under this section; and that Court may, if it thinks fit, direct that in the event of such arrest, he shall be released on bail. "
+        }
+      ],
+      "tags": [
+        "BNSS",
+        "procedure"
+      ]
+    },
+    {
+      "id": "retrieval_011",
+      "case_family": "police_confession",
+      "split": "development",
+      "question": "Which BSA provision addresses confessions to police officers and in police custody, including the proviso concerning information distinctly related to a discovered fact?",
+      "relevant_section_ids": [
+        "BSA_23"
+      ],
+      "reference_notes": "Target the primary provision headed Confession to police officer; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BSA_23",
+          "heading": "Confession to police officer",
+          "source_csv": "../../data/BSA_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20063/1/aa202347.pdf",
+          "source_page": "19",
+          "section_text_sha256": "3cbfe16add50a24e3166b32ff443caccff38058f5f68d04f837451cfc52ee098",
+          "excerpt": "Confession to police officer.—(1) No confession made to a police officer shall be proved as against a person accused of any offence. "
+        }
+      ],
+      "tags": [
+        "BSA",
+        "evidence"
+      ]
+    },
+    {
+      "id": "retrieval_012",
+      "case_family": "experts",
+      "split": "development",
+      "question": "Find the BSA provision on relevance of expert opinions in matters such as science, handwriting, and fingerprints.",
+      "relevant_section_ids": [
+        "BSA_39"
+      ],
+      "reference_notes": "Target the primary provision headed Opinions of experts; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BSA_39",
+          "heading": "Opinions of experts",
+          "source_csv": "../../data/BSA_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20063/1/aa202347.pdf",
+          "source_page": "24",
+          "section_text_sha256": "f8b953be682b116fbb8affaa7cba7e549bf535b07d97e4ae8a0198bfd2470280",
+          "excerpt": "Opinions of experts.—(1) When the Court has to form an opinion upon a point of foreign law or of science or art, or any other field, or as to identity of handwriting or finger impressions, the opinions upon that point of persons specially skilled in such foreign law, science or art, or any other field, or in questions as to identity of handwriting or finger impressions are relevant facts and such persons are called experts. Illustrations. (a) The question is, whether the death of A was caused by poison. The opinions of experts as to the symptoms produced by the poison by which A is supposed to have died, are relevant. (b) The question is, whether A, at the time of doing a certain act, was, by reason of unsoundness of mind, incapable of knowing the nature of the act, or that he was doing what was either wrong or contrary to law. The opinions of experts upon the question whether the symptoms exhibited by A commonly show unsoundness of mind, and whether such unsoundness of mind usually renders persons incapable of knowing the nature of the acts which they do, or of knowing that what the"
+        }
+      ],
+      "tags": [
+        "BSA",
+        "evidence"
+      ]
+    },
+    {
+      "id": "retrieval_013",
+      "case_family": "primary_evidence",
+      "split": "development",
+      "question": "Under BSA, where is primary evidence defined as the document itself produced for the inspection of the Court?",
+      "relevant_section_ids": [
+        "BSA_57"
+      ],
+      "reference_notes": "Target the primary provision headed Primary evidence; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BSA_57",
+          "heading": "Primary evidence",
+          "source_csv": "../../data/BSA_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20063/1/aa202347.pdf",
+          "source_page": "28",
+          "section_text_sha256": "c8202278ecc5fe4ce3e57b2f1c2e594efbb435b26f79de534d980f73f79c2332",
+          "excerpt": "Primary evidence.—Primary evidence means the document itself produced for the inspection of the Court. Explanation 1.—Where a document is executed in several parts, each part is primary evidence of the document. Explanation 2.—Where a document is executed in counterpart, each counterpart being executed by one or some of the parties only, each counterpart is primary evidence as against the parties executing it. Explanation 3.—Where a number of documents are all made by one uniform process, as in the case of printing, lithography or photography, each is primary evidence of the contents of the rest; but, where they are all copies of a common original, they are not primary evidence of the contents of the original. Explanation 4.—Where an electronic or digital record is created or stored, and such storage occurs simultaneously or sequentially in multiple files, each such file is primary evidence. Explanation 5.—Where an electronic or digital record is produced from proper custody, such electronic and digital record is primary evidence unless it is disputed. Explanation 6.—Where a video re"
+        }
+      ],
+      "tags": [
+        "BSA",
+        "definition"
+      ]
+    },
+    {
+      "id": "retrieval_014",
+      "case_family": "electronic_records",
+      "split": "development",
+      "question": "Which BSA provision sets out conditions for admissibility of computer outputs and the certificate associated with electronic records?",
+      "relevant_section_ids": [
+        "BSA_63"
+      ],
+      "reference_notes": "Target the primary provision headed Admissibility of electronic records; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BSA_63",
+          "heading": "Admissibility of electronic records",
+          "source_csv": "../../data/BSA_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20063/1/aa202347.pdf",
+          "source_page": "30",
+          "section_text_sha256": "fa2d96b4686425c00aa0bd5d774def08df92d8a1447266848cf289169f2b3ea4",
+          "excerpt": "Admissibility of electronic records.—(1) Notwithstanding anything contained in this Adhiniyam, any information contained in an electronic record which is printed on paper, stored, recorded or copied in optical or magnetic media or semiconductor memory which is produced by a computer or any communication device or otherwise stored, recorded or copied in any electronic form (hereinafter referred to as the computer output) shall be deemed to be also a document, if the conditions mentioned in this section are satisfied in relation to the information and computer in question and shall be admissible in any proceedings, without further proof or production of the original, as evidence or any contents of the original or of any fact stated therein of which direct evidence would be admissible. "
+        }
+      ],
+      "tags": [
+        "BSA",
+        "evidence"
+      ]
+    },
+    {
+      "id": "retrieval_015",
+      "case_family": "burden_of_proof",
+      "split": "held_out",
+      "question": "Find the BSA provision defining burden of proof for a person asking a court to give judgment on a legal right or liability dependent on facts they assert.",
+      "relevant_section_ids": [
+        "BSA_104"
+      ],
+      "reference_notes": "Target the primary provision headed Burden of proof; do not score unrelated cross-references as substitute targets.",
+      "support": [
+        {
+          "section_id": "BSA_104",
+          "heading": "Burden of proof",
+          "source_csv": "../../data/BSA_sections.csv",
+          "source_url": "https://www.indiacode.nic.in/bitstream/123456789/20063/1/aa202347.pdf",
+          "source_page": "38",
+          "section_text_sha256": "dcb714a33d105f1f406b68ad699004275ddb9973fd82d6aac19e3f346ff853a8",
+          "excerpt": "Burden of proof.—Whoever desires any Court to give judgment as to any legal right or liability dependent on the existence of facts which he asserts must prove that those facts exist, and when a person is bound to prove the existence of any fact, it is said that the burden of proof lies on that person. Illustrations. (a) A desires a Court to give judgment that B shall be punished for a crime which A says B has committed. A must prove that B has committed the crime. (b) A desires a Court to give judgment that he is entitled to certain land in the possession of B, by reason of facts which he asserts, and which B denies, to be true. A must prove the existence of those facts."
+        }
+      ],
+      "tags": [
+        "BSA",
+        "evidence"
+      ]
+    }
+  ]
+}

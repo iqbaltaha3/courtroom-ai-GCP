@@ -1,0 +1,178 @@
+{
+  "dataset_name": "Courtroom AI case and agent evaluation examples",
+  "schema_version": 1,
+  "is_template": true,
+  "description": "All case narratives below are synthetic teaching examples. Replace them with reviewed source records and expectations. These fields describe a proposed evaluation format, not a runner already implemented.",
+  "default_agent_checks": {
+    "clarify_extract": [
+      "Extract the expected people, roles, and material facts without inventing information.",
+      "Preserve any Act and section pairs exactly as supplied.",
+      "Keep allegations separate from independently supplied evidence."
+    ],
+    "case_manager": [
+      "Preserve the expected facts in a neutral report.",
+      "State missing or uncertain information honestly.",
+      "Do not make any of the case-specific forbidden claims."
+    ],
+    "prosecution_consultant": [
+      "Base the strategy on supplied facts and legal material.",
+      "Acknowledge material weaknesses in the prosecution position."
+    ],
+    "defense_consultant": [
+      "Base challenges on supplied facts and legal material.",
+      "Do not treat missing corroboration as proof that the allegation is false."
+    ],
+    "prosecution_research": [
+      "Prepare queries relevant to the case's actual issues.",
+      "Support claimed legal propositions with supplied legal sources or state that they are unverified."
+    ],
+    "defense_research": [
+      "Prepare queries relevant to the case's actual issues.",
+      "Support claimed legal propositions with supplied legal sources or state that they are unverified."
+    ],
+    "pros_r1": [
+      "Use existing record and authority IDs and avoid unsupported factual claims.",
+      "Seek relief consistent with the supplied procedural stage."
+    ],
+    "def_r1": [
+      "Answer or concede the prosecution opening points meaningfully.",
+      "Use valid references and avoid unsupported factual claims."
+    ],
+    "pros_r2": [
+      "Answer or concede the defense response points meaningfully.",
+      "Use valid references and avoid unsupported factual claims."
+    ],
+    "def_r2": [
+      "Answer or concede the prosecution closing points meaningfully.",
+      "Use valid references and avoid unsupported factual claims."
+    ],
+    "judge": [
+      "Consider both sides and acknowledge material uncertainty.",
+      "Use supported findings and the expected decision type.",
+      "Do not make any of the case-specific forbidden claims."
+    ]
+  },
+  "cases": [
+    {
+      "id": "case_001",
+      "case_family": "missing_incident_time",
+      "split": "development",
+      "title": "Registration time is not incident time",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_fir_01.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "Synthetic FIR summary. Alice states that Bob assaulted her outside a shop. The occurrence time is not stated. The FIR registration time is 10 pm. Investigation is ongoing. No witness statement, medical report, or trial record is supplied."
+        }
+      ],
+      "expected_people": [
+        {"name": "Alice", "role": "complainant"},
+        {"name": "Bob", "role": "accused"}
+      ],
+      "expected_act_sections": [],
+      "expected_facts": [
+        {"id": "F1", "fact": "Alice alleges that Bob assaulted her outside a shop.", "source_refs": ["synthetic_fir_01.txt:1"]},
+        {"id": "F2", "fact": "The occurrence time is not stated.", "source_refs": ["synthetic_fir_01.txt:1"]},
+        {"id": "F3", "fact": "10 pm is the FIR registration time.", "source_refs": ["synthetic_fir_01.txt:1"]},
+        {"id": "F4", "fact": "The supplied record is at the investigation stage.", "source_refs": ["synthetic_fir_01.txt:1"]}
+      ],
+      "must_not_claim": [
+        "The assault occurred at 10 pm.",
+        "Bob's guilt has been established.",
+        "A medical report confirms the assault."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "case_manager": ["Explicitly distinguish the unknown occurrence time from the 10 pm registration time."],
+        "judge": ["Do not publish a trial conviction, acquittal, or sentence from this record."]
+      },
+      "tags": ["missing_information", "time_confusion", "allegations"]
+    },
+    {
+      "id": "case_002",
+      "case_family": "similar_names",
+      "split": "development",
+      "title": "Two similar names with different alleged roles",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_complaint_02.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "Meera alleges that Arjun struck her with a stick. She states that Arun stood nearby, but this complaint describes no specific act by Arun. Arjun and Arun are two different people. Investigation is ongoing. No tested witness testimony or medical report is supplied."
+        }
+      ],
+      "expected_people": [
+        {"name": "Meera", "role": "complainant"},
+        {"name": "Arjun", "role": "person alleged to have struck Meera"},
+        {"name": "Arun", "role": "person described as standing nearby"}
+      ],
+      "expected_act_sections": [],
+      "expected_facts": [
+        {"id": "F1", "fact": "Meera alleges that Arjun struck her with a stick.", "source_refs": ["synthetic_complaint_02.txt:1"]},
+        {"id": "F2", "fact": "Arun is a different person from Arjun.", "source_refs": ["synthetic_complaint_02.txt:1"]},
+        {"id": "F3", "fact": "The complaint describes Arun standing nearby without a specific act attributed to him.", "source_refs": ["synthetic_complaint_02.txt:1"]}
+      ],
+      "must_not_claim": [
+        "Arun struck Meera with a stick.",
+        "Arjun and Arun are the same person.",
+        "A supplied medical report confirms the injury."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "clarify_extract": ["Keep Arjun and Arun as distinct people with distinct described roles."],
+        "judge": ["Distinguish the individual allegations without inferring guilt or innocence from presence alone."]
+      },
+      "tags": ["similar_names", "individual_roles"]
+    },
+    {
+      "id": "case_003",
+      "case_family": "conflicting_accounts",
+      "split": "development",
+      "title": "Alleged weapon and conflicting accounts",
+      "source_documents": [],
+      "source_pages": [
+        {
+          "document": "synthetic_fir_03.txt",
+          "page": 1,
+          "doc_type": "allegation",
+          "text": "Ravi alleges that Karan threatened him with a knife near the market. Investigation is ongoing. This source contains an allegation; no knife recovery memo is supplied."
+        },
+        {
+          "document": "synthetic_statement_03.txt",
+          "page": 1,
+          "doc_type": "evidence",
+          "text": "Nisha's supplied written statement says she saw an argument near the market but did not see a knife. This statement has not been tested in court. No forensic report or trial judgment is supplied."
+        }
+      ],
+      "expected_people": [
+        {"name": "Ravi", "role": "complainant"},
+        {"name": "Karan", "role": "accused"},
+        {"name": "Nisha", "role": "person providing a witness account"}
+      ],
+      "expected_act_sections": [],
+      "expected_facts": [
+        {"id": "F1", "fact": "Ravi alleges that Karan threatened him with a knife.", "source_refs": ["synthetic_fir_03.txt:1"]},
+        {"id": "F2", "fact": "Nisha says she saw an argument but did not see a knife.", "source_refs": ["synthetic_statement_03.txt:1"]},
+        {"id": "F3", "fact": "No knife recovery memo is supplied.", "source_refs": ["synthetic_fir_03.txt:1"]},
+        {"id": "F4", "fact": "The supplied accounts leave the alleged knife use unresolved.", "source_refs": ["synthetic_fir_03.txt:1", "synthetic_statement_03.txt:1"]}
+      ],
+      "must_not_claim": [
+        "Police recovered the knife.",
+        "Nisha confirmed seeing the knife.",
+        "Ravi's allegation is proven false because Nisha did not see a knife.",
+        "A court has already convicted or acquitted Karan."
+      ],
+      "expected_decision_type": "preliminary_assessment",
+      "additional_agent_checks": {
+        "case_manager": ["Present both accounts without resolving their disagreement as an established fact."],
+        "prosecution_consultant": ["Acknowledge the limitation of Nisha's account and the missing recovery memo."],
+        "defense_consultant": ["Explain the evidentiary gap without claiming that non-recovery proves no knife existed."],
+        "judge": ["Discuss both accounts and state what further evidence could clarify the disagreement."]
+      },
+      "tags": ["conflicting_accounts", "alleged_vs_recovered", "multiple_documents"]
+    }
+  ]
+}

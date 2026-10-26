@@ -1,0 +1,17 @@
+# HTTP server and validated request/response models.
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+python-multipart==0.0.20
+python-dotenv==1.0.1
+pydantic>=2.0,<3
+
+# Vertex AI authentication, text completions, image transcription, and grounded search.
+openai>=1.30,<4
+google-auth>=2.35,<3
+google-genai>=1.0,<2
+
+# PDF rendering and hybrid statute retrieval.
+PyMuPDF>=1.24,<2
+chromadb>=0.4.24,<2
+rank_bm25>=0.2,<1
+tavily-python>=0.5,<1

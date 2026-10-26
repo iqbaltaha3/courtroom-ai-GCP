@@ -1,0 +1,34 @@
+{
+  "dataset_name": "Courtroom AI statute retrieval examples",
+  "schema_version": 1,
+  "is_template": true,
+  "description": "Illustrative questions checked against the repository CSV text. Replace or expand these with reviewed questions before reporting evaluation results.",
+  "top_k": 8,
+  "methods": ["bm25", "vector", "hybrid"],
+  "examples": [
+    {
+      "id": "retrieval_001",
+      "split": "development",
+      "question": "Which BNS section defines theft of movable property taken dishonestly without the owner's consent?",
+      "relevant_section_ids": ["BNS_303"],
+      "reference_notes": "The local BNS CSV section 303 begins with the heading Theft and defines dishonest taking of movable property without consent.",
+      "tags": ["exact_legal_terms", "substantive_law"]
+    },
+    {
+      "id": "retrieval_002",
+      "split": "development",
+      "question": "Under BNSS, which provision covers giving police information about a cognizable offence, including through electronic communication?",
+      "relevant_section_ids": ["BNSS_173"],
+      "reference_notes": "The local BNSS CSV section 173 is headed Information in cognizable cases and discusses oral and electronic communication.",
+      "tags": ["procedure", "plain_language"]
+    },
+    {
+      "id": "retrieval_003",
+      "split": "development",
+      "question": "Which BSA provision sets conditions for the admissibility of electronic records produced by a computer?",
+      "relevant_section_ids": ["BSA_63"],
+      "reference_notes": "The local BSA CSV section 63 is headed Admissibility of electronic records.",
+      "tags": ["evidence", "electronic_records"]
+    }
+  ]
+}

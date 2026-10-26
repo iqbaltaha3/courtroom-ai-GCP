@@ -1,0 +1,52 @@
+JUSTICE RAJAN ROY
+Judge, Allahabad High Court
+======================================================
+
+RESEARCH NOTE: Public-facing biographical detail on Justice Rajan Roy is
+noticeably thinner than for most other senior Allahabad HC judges - his own
+profile page was not turned up on the court's website in this pass (only
+daily cause-list/bench-constitution orders mentioning his name were found in
+volume, which confirms he is an active, frequently-sitting judge, mostly at
+the Lucknow Bench). A dedicated visit to allahabadhighcourt.in's judges
+directory or a right-to-information request would likely be needed to fill
+the gaps below.
+
+BASIC DETAILS (from the Dept. of Justice seniority roster, "AS ON 01/05/2026")
+- Source of appointment: Bar
+- Date of Appointment as Additional Judge: 03/02/2014
+- Date of Appointment as Permanent Judge: 01/02/2016
+- Date of Retirement: 14/08/2027
+
+CAREER / SITTING PATTERN (from court records)
+- Has sat extensively at the Lucknow Bench of the Allahabad High Court over
+  2021-2026, both as a single judge and as part of various Division Benches
+  (paired at different times with Justices Ramesh Sinha, Narendra Kumar
+  Johari, Shekhar Kumar Yadav, Saroj Yadav, Brij Raj Singh, Rajeev Bharti, and
+  others), per routine bench-constitution orders published on the court's
+  website between 2021 and January 2026.
+- Education, pre-elevation legal practice area, and enrolment date as an
+  advocate were not confirmed in this pass.
+
+NOTABLE JUDGMENTS / MEDIA COVERAGE
+- Not compiled in this pass. Given his long, active tenure (elevated 2014),
+  a case-law search (SCC Online / Manupatra / Indian Kanoon / LiveLaw archive
+  under "Justice Rajan Roy") would likely surface a substantial body of
+  reported judgments, given how frequently his name appears in the court's
+  own bench-constitution orders.
+- No specific controversy or adverse-coverage items were found in this pass.
+
+SOURCES CONSULTED
+- Dept. of Justice, Government of India: Allahabad High Court judges seniority
+  list "AS ON 01/05/2026"
+- Allahabad High Court website: multiple daily "Supplementary Constitution of
+  Benches" and courtroom-reassignment orders (2021-2026) naming Justice Rajan
+  Roy
+
+NOTE FOR JOURNALIST: This file is the weakest of the batch in terms of
+biographical depth - flagging it clearly so it isn't mistaken for a complete
+profile. Recommend: (1) checking allahabadhighcourt.in's judges directory
+directly for his individual profile page (the id-based judgeDetail.jsp URLs
+used for other judges did not surface his entry in this search pass), (2)
+searching SCC Online's "Know Thy Judge" series, which profiles most sitting
+High Court judges, and (3) a Bar & Bench / LiveLaw archive search under his
+name for reported judgments and any transfer/elevation news.

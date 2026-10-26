@@ -1,0 +1,36 @@
+# Local credentials and environments.
+.env
+.env.*
+!.env.example
+backend/courtroom-ai-*.json
+**/.venv/
+
+# Generated files and user case storage.
+**/__pycache__/
+**/.pytest_cache/
+**/.ruff_cache/
+*.pyc
+.DS_Store
+backend/storage/
+frontend/node_modules/
+frontend/dist/
+
+# Local case catalogues, legacy case indexes, and rebuildable research vectors.
+backend/data/*.db
+backend/data/chroma.sqlite3
+backend/data/chroma_case/
+backend/data/research_index/
+*.db-shm
+*.db-wal
+*.sqlite3-shm
+*.sqlite3-wal
+
+# Generated evaluation runs and document exports.
+backend/evaluation/results/
+output/
+
+# Private keys and alternate credential filenames.
+*.pem
+*.key
+**/service-account*.json
+**/credentials*.json
